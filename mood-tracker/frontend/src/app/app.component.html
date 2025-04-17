@@ -1,6 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" routerLink="/">Mood Tracker</a>
+    <div class="d-flex ms-auto">
+      <button *ngIf="auth.isLoggedIn()" class="btn btn-outline-light" (click)="logout()">
+        Logout
+      </button>
+    </div>
   </div>
 </nav>
 
