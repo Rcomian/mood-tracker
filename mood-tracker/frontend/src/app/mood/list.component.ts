@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MoodService } from '../core/mood.service';
 import { MoodEntry } from '../shared/mood-entry';
+import { FormComponent } from './form.component';
 
 @Component({
   selector: 'app-mood-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormComponent],
   templateUrl: './list.component.html'
 })
 export class ListComponent implements OnInit {

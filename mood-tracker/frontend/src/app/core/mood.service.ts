@@ -13,4 +13,8 @@ export class MoodService {
       `${environment.apiUrl}/mood?page=${page}&pageSize=${pageSize}`
     );
   }
+
+  addMood(entry: Partial<MoodEntry>) {
+    return this.http.post(`${environment.apiUrl}/mood`, entry);
+  }
 }
