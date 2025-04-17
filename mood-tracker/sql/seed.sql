@@ -1,6 +1,6 @@
 -- Insert a test user
 INSERT INTO Users (Username, PasswordHash)
-VALUES ('testuser', 'somehashedpassword123');
+VALUES ('testuser', '$2a$11$5Srs0.sWQuLrJuRC.3BcWedepfEQI6SX3xBMvqVzB9PaVih8.BgDm'); -- secret123
 
 -- Insert a couple mood entries
 INSERT INTO MoodEntries (Mood, Notes, Date, UserId)
