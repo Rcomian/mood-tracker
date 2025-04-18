@@ -3,6 +3,7 @@ using MoodTracker.API.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         var jwt = builder.Configuration.GetSection("Jwt");
-        var key = jwt.GetValue<string>("Key") 
+        var key = jwt.GetValue<string>("Key")
             ?? throw new Exception("JWT Key is missing in configuration");
 
         options.TokenValidationParameters = new TokenValidationParameters
@@ -59,10 +60,31 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseCors(); // Apply CORS middleware
 
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+var angularDistPath = Path.Combine(Directory.GetCurrentDirectory(), "../../frontend/dist/mood-tracker/browser");
 
+app.UseDefaultFiles(new DefaultFilesOptions
+{
+    FileProvider = new PhysicalFileProvider(angularDistPath)
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(angularDistPath)
+});
+
+// Catch-all for SPA client routes
+app.MapFallbackToFile(
+    "index.html",
+    new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(angularDistPath)
+    }
+);
+
+app.Run();
